@@ -4,6 +4,7 @@ import express, { Errback, Request, Response } from 'express'
 
 import router from '../routes/RoutesEmployee'
 
+
 const app = express()
 
 app.use(cors())
@@ -19,5 +20,6 @@ app.use((_: Request, res: Response) => {
 app.use((_: Errback, _req: Request, res: Response) => {
   return res.status(500).json({ message: 'Internal Error' })
 })
+
 
 export default app

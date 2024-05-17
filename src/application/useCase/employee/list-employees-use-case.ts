@@ -6,8 +6,8 @@ export class ListEmployeesUseCase {
     private employeeRepository: EmployeeRepository,
   ) {}
 
-  async execute(): Promise<EmployeesDTOList[]> {
-    const employeesListRepository = await this.employeeRepository.findAll();
+  async execute(page: number, pageSize: number,filter:string,sortorder:string): Promise<EmployeesDTOList[]> {
+    const employeesListRepository = await this.employeeRepository.findAll(page,pageSize,filter,sortorder);
     if (!employeesListRepository) return [];
     const employeesDTO:EmployeesDTOList[] = []
     for (const employee of employeesListRepository) {

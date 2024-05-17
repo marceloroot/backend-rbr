@@ -4,17 +4,26 @@ import EmployeeModel, { EmployeeInterface } from "./models/employee-model";
 
 export class EmployeeRepositoryDataBase implements EmployeeRepository {
   constructor() {}
-  async findAll(): Promise<Employee[]> {
-    const employeesModel = await EmployeeModel.find();
-    const employees: Employee[] = employeesModel.map((data:EmployeeInterface) => {
+  async findAll(page: number, pageSize: number,filter:string,sortorder: string): Promise<Employee[]> {
+    const skip = (page - 1) * pageSize;
+    const sortOrder = sortorder === 'desc' ? -1 : 1 ; // Ordem de ordenação (1 para ascendente, -1 para descendente)
+    const employeesModel = await EmployeeModel.find({ 
+      name: new RegExp(filter, 'i') // Filtra por nome (insensível a maiúsculas/minúsculas)
+    })
+    .skip(skip) // Pula os documentos necessários para a página atual
+    .limit(pageSize) // Limita o número de documentos retornados
+    .sort({ name: sortOrder});
+  
+    const employees: Employee[] = employeesModel.map((data: EmployeeInterface) => {
       return new Employee({
         id: data.id,
-        name:data.name,
-        date:data.date,
-        department:data.department,
-        role:data.role
+        name: data.name,
+        date: data.date,
+        department: data.department,
+        role: data.role
       });
     });
+  
     return employees;
   }
   async findById(id: string): Promise<Employee | undefined> {

@@ -5,10 +5,15 @@ import { EmplpoyeetUseCaseFactory } from "../facotry/abstract-factory/list-emplo
 import { Employee } from '../../domain/entity/employee';
 
 
-export const getAll = async (_: Request, res: Response): Promise<void> =>  {
+export const getAll = async (req: Request, res: Response): Promise<void> =>  {
     try{
+      const page = parseInt(req.query.page as string) || 1;
+      const size = parseInt(req.query.size as string) || 10;
+      const filter = req.query.filter ? req.query.filter.toString() : '';
+      const sortOrder =req.query.sortorder ? req.query.sortorder.toString() : 'asc';
       const listEmployeesFactory = EmplpoyeetUseCaseFactory.ListEmpolyeeAbstractFactory();
-      const employees = await listEmployeesFactory.execute();
+  
+      const employees = await listEmployeesFactory.execute(page,size,filter,sortOrder);
       res.status(StatusCodes.OK).json(employees);
     } catch (error:any) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({

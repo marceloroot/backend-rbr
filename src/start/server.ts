@@ -1,7 +1,7 @@
 import app from '../infra/http/expres-adapter'; // Corrigido o caminho do import
 import { connectToMongoDB } from '../infra/repositoreDataBase/connect'; // Corrigido o caminho do import
 
-const port = parseInt(process.env.APP_PORT as string) || 3000;
+const port = parseInt(process.env.APP_PORT as string) || 3002;
 
 
 // Conectar ao MongoDB pode desacoplar mais

@@ -30,7 +30,7 @@ afterAll(async () => {
 
 test("Deveria buscar todos um employee no repositorio", async function(){
   const listEmployeesFactory = EmplpoyeetUseCaseFactory.ListEmpolyeeAbstractFactory();
-    const employees = await listEmployeesFactory.execute();
+    const employees = await listEmployeesFactory.execute(1,5,'','asc');
    expect(employees.length).toBeGreaterThan(0);
 });
 
